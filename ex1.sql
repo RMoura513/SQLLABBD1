@@ -34,7 +34,7 @@ SELECT * FROM motorista
 SELECT * FROM onibus
 SELECT * FROM viagem
 
---1) Criar um Union das tabelas Motorista e 鬾ibus, com as colunas ID (C骴igo e Placa) e Nome (Nome e Marca)
+--1) Criar um Union das tabelas Motorista e 么nibus, com as colunas ID (C贸digo e Placa) e Nome (Nome e Marca)
 SELECT CAST(codigo AS VARCHAR(10)) AS ID, nome AS nome FROM motorista
 UNION
 SELECT placa AS ID, marca AS nome FROM onibus
@@ -51,26 +51,26 @@ SELECT placa AS ID, marca AS nome FROM onibus
 SELECT * FROM v_motorista_onibus
 
 
--- 3) Criar uma View (Chamada v_descricao_onibus) que mostre o C骴igo da Viagem, o Nome do motorista,
--- a placa do 鬾ibus (Formato XXX-0000), a Marca do 鬾ibus, o Ano do 鬾ibus e a descri玢o do onibus
+-- 3) Criar uma View (Chamada v_descricao_onibus) que mostre o C贸digo da Viagem, o Nome do motorista,
+-- a placa do 么nibus (Formato XXX-0000), a Marca do 么nibus, o Ano do 么nibus e a descri莽茫o do onibus
 
 
 CREATE VIEW v_descricao_onibus
 AS
-SELECT CONCAT(SUBSTRING(oni.placa, 1, 3), '-', SUBSTRING(oni.placa, 4, 3)) AS Placa, oni.marca AS MarcaOnibus,
+SELECT CONCAT(SUBSTRING(oni.placa, 1, 3), '-', SUBSTRING(oni.placa, 4, 4)) AS Placa, oni.marca AS MarcaOnibus,
 	oni.ano AS AnoOnibus, oni.descricao AS DescricaoOnibus FROM viagem vi
 JOIN motorista mo ON vi.motoristaCodigo = mo.codigo
 	JOIN onibus oni ON vi.onibusPlaca = oni.placa
 
 SELECT * FROM v_descricao_onibus
 
--- 4) Criar uma View (Chamada v_descricao_viagem) que mostre o C骴igo da viagem, a placa do 鬾ibus(Formato XXX-0000),
--- a Hora da Sa韉a da viagem (Formato HH:00), a Hora da Chegada da viagem (Formato HH:00), partida e destino
+-- 4) Criar uma View (Chamada v_descricao_viagem) que mostre o C贸digo da viagem, a placa do 么nibus(Formato XXX-0000),
+-- a Hora da Sa铆da da viagem (Formato HH:00), a Hora da Chegada da viagem (Formato HH:00), partida e destino
 
 
 CREATE VIEW v_descricao_viagem
 AS
-SELECT vi.codigo AS CodigoViagem, CONCAT(SUBSTRING(oni.placa, 1, 3), '-', SUBSTRING(oni.placa, 4, 3)) AS Placa,
+SELECT vi.codigo AS CodigoViagem, CONCAT(SUBSTRING(oni.placa, 1, 3), '-', SUBSTRING(oni.placa, 4, 4)) AS Placa,
 RIGHT('0' + CAST(vi.horaSaida AS varchar(2)), 2) + ':00' AS horaSaida, RIGHT('0' + CAST(vi.horaChegada AS varchar(2)), 2) + ':00' AS horaChegada,
 vi.partida AS Partida, vi.destino AS Destino FROM viagem vi
 JOIN motorista mo ON vi.motoristaCodigo = mo.codigo
